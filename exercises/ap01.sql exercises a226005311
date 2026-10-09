@@ -1,0 +1,13 @@
+/*
+  Lesson 01 - Metadata,Read, add, and remove rows
+  Student: Leandro Djú Vieira - a22605311
+  Date: 18/09/2026
+*/
+
+USE ULHT_DB26;
+GO
+
+-- PART A
+--A1
+
+SELECT DB_NAME() AS current_database;
