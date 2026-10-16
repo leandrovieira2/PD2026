@@ -1,23 +1,35 @@
 -- EXERCICIO 1
 
-CREATE TABLE sales.waaranty_claim (
-    claim_id    INT         NOT NULL,
-    customer_id INT         NOT NULL,
-    staff_id    INT         NULL,
-    product_code VarCHAR(20) NOT NULL,
-    opened_on   DATE        NOT NULL
+CREATE TABLE sales.warranty_claim (
+    claim_id     INT         NOT NULL,
+    customer_id  INT         NOT NULL,
+    staff_id     INT         NULL,
+    product_code VARCHAR(20) NOT NULL,
+    opened_on    DATE        NOT NULL
 );
 GO
 
-INSERT INTO sales.waaranty_claim
-    (claim_id, customer_id, staff_id, product_code, opened_on)
-VALUES
-    (1, 1, NULL, 'TEST-001', '2026-10-16');
 
-SELECT * FROM sales.waaranty_claim;
+ALTER TABLE sales.warranty_claim
+ADD CONSTRAINT PK_warranty_claim PRIMARY KEY (claim_id);
+GO
 
-SELECT *
-FROM sales.waaranty_claim;
 
-SELECT 1 AS test;
+SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, DATA_TYPE, IS_NULLABLE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE (TABLE_SCHEMA = 'sales' AND TABLE_NAME = 'customers'        AND COLUMN_NAME = 'customer_id')
+   OR (TABLE_SCHEMA = 'sales' AND TABLE_NAME = 'warranty_claim'   AND COLUMN_NAME = 'customer_id');
 
+
+SELECT wc.claim_id, wc.customer_id
+FROM sales.warranty_claim AS wc
+LEFT JOIN sales.customers AS c
+       ON c.customer_id = wc.customer_id
+WHERE c.customer_id IS NULL;
+
+ALTER TABLE sales.warranty_claim
+WITH CHECK
+ADD CONSTRAINT FK_warranty_claim_customers
+    FOREIGN KEY (customer_id)
+    REFERENCES sales.customers (customer_id);
+GO
