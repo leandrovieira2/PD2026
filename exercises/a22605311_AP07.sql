@@ -19,3 +19,5 @@ SELECT * FROM sales.waaranty_claim;
 SELECT *
 FROM sales.waaranty_claim;
 
+SELECT 1 AS test;
+
